@@ -1,6 +1,10 @@
 import 'dart:convert';
 
+import 'package:dart_runner/evaluate.dart';
 import 'package:dart_runner/typedefs.dart';
+import 'package:dart_runner/utils/json_utils.dart';
+import 'package:dart_runner/utils/logging_utils.dart';
+import 'package:dart_runner/utils/response_utils.dart';
 import 'package:dart_runner/verify_signature.dart';
 import 'package:shelf/shelf.dart' show Request, Response;
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -9,28 +13,26 @@ Future<Response> handler(Request request) async {
   try {
     String body = await request.readAsString();
 
+    printRequestInfo(request, body);
+
     if (validSignature(body, request.headers)) {
-      // Server should ACK any valid PING
       var json = jsonDecode(body) as JsonMap;
-      if (json['type'] == 1) {
-        return Response.ok(jsonEncode({'type': 1}),
-            headers: {'Content-type': 'application/json'});
-      }
-      return Response.ok(
-          jsonEncode({
-            'type': 4,
-            'data': {
-              'tts': false,
-              'content': 'Congrats on sending your command!',
-              'embeds': [],
-              'allowed_mentions': {'parse': []}
-            }
-          }),
-          headers: {'Content-type': 'application/json'});
+      print('decoded json:\n$json');
+
+      // Server should ACK any valid PING
+      if (json['type'] == 1) return ackResponse();
+
+      var expression = extractValue(json);
+      String result = await evaluate(expression);
+
+      print('Result:\n$result');
+
+      return respondWait();
     } else {
       return Response(401);
     }
-  } catch (e) {
+  } catch (e, s) {
+    print('Exception:\n$e\n\nTrace:\n$s');
     return Response.internalServerError();
   }
 }
