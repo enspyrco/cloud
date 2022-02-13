@@ -1,4 +1,4 @@
-import 'package:discord_interaction_to_pubsub/utils/json_utils.dart';
+import 'package:discord_interaction_to_pubsub_message/utils/json_utils.dart';
 import 'package:test/test.dart';
 
 import 'data/signature_test_data.dart';

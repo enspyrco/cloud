@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:discord_interaction_to_pubsub/typedefs.dart';
-import 'package:discord_interaction_to_pubsub/utils/json_utils.dart';
-import 'package:discord_interaction_to_pubsub/utils/logging_utils.dart';
-import 'package:discord_interaction_to_pubsub/utils/response_utils.dart';
-import 'package:discord_interaction_to_pubsub/verify_signature.dart';
+import 'package:discord_interaction_to_pubsub_message/typedefs.dart';
+import 'package:discord_interaction_to_pubsub_message/utils/json_utils.dart';
+import 'package:discord_interaction_to_pubsub_message/utils/logging_utils.dart';
+import 'package:discord_interaction_to_pubsub_message/utils/response_utils.dart';
+import 'package:discord_interaction_to_pubsub_message/verify_signature.dart';
 import 'package:gcloud/pubsub.dart';
 import 'package:shelf/shelf.dart' show Request, Response;
 import 'package:shelf/shelf_io.dart' as shelf_io;

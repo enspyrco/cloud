@@ -1,4 +1,4 @@
-# discord_interaction_to_pubsub
+# discord_interaction_to_pubsub_message
 
 *A microservice that turns Discord Interactions into PubSub messages.*
 
