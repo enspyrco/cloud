@@ -1,7 +1,7 @@
-import 'package:dart_runner/utils/json_utils.dart';
+import 'package:discord_interaction_to_pubsub/utils/json_utils.dart';
 import 'package:test/test.dart';
 
-import 'utils/signature_test_data.dart';
+import 'data/signature_test_data.dart';
 
 void main() {
   //

@@ -1,4 +1,4 @@
-import 'package:dart_runner/utils/json_utils.dart';
+import 'package:discord_interaction_to_pubsub/utils/json_utils.dart';
 import 'package:test/test.dart';
 
 void main() {
