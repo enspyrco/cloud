@@ -1,4 +1,4 @@
-# dart_runner
+# run_dart_code_in_pubsub_message
 
 *A Dart server that runs Dart code, built with shelf.*
 

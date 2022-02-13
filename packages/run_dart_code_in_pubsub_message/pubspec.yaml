@@ -1,4 +1,4 @@
-name: dart_runner
+name: run_dart_code_in_pubsub_message
 description: A Dart server that runs Dart code, built with shelf.
 version: 0.0.1
 
