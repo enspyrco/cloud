@@ -6,7 +6,7 @@ import 'data/signature_test_data.dart';
 void main() {
   //
   test('...', () async {
-    var value = extractValue(body);
+    var value = extractInfo(body);
     expect(value, '12+23');
   });
 }
