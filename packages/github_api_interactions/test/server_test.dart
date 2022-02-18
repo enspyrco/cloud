@@ -1,21 +1,32 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:corsac_jwt/corsac_jwt.dart';
+import 'package:github_api_interactions/src/git_hub_api_client.dart';
+import 'package:googleapis/secretmanager/v1.dart';
+import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
 
 final appUri = Uri.parse('https://api.github.com/app');
-final installationsUri = Uri.parse('https://api.github.com/app/installations');
+const local = 'http://0.0.0.0:8080';
 
 void main() {
-  final local = 'http://0.0.0.0:8080';
-  final live = '';
-
-  test('Echo', () async {
-    final response = await get(Uri.parse(local + '/echo/hello'));
-    expect(response.statusCode, 200);
-    expect(response.body, 'hello\n');
+  test('ADC', () async {
+    var client = await clientViaApplicationDefaultCredentials(scopes: []);
+    print(client.credentials.accessToken);
+    print(client.credentials.idToken);
+    print(client.credentials.refreshToken);
+    print(client.credentials.scopes);
+  });
+  test('GitHub API Client', () async {
+    var jsonString = File('test/data/mobbing-on-discord-7ad4cd6e7835.json')
+        .readAsStringSync();
+    var credentials = ServiceAccountCredentials.fromJson(jsonString);
+    var authClient = await clientViaServiceAccount(
+        credentials, [SecretManagerApi.cloudPlatformScope]);
+    var client = await GitHubApiClient.create(authClient: authClient);
+    var jsonResponse = await client.createRepo(name: 'justATestRepo');
+    print(jsonResponse);
   });
 
   test('Create JWT for authenticated call to GitHub API', () async {
@@ -32,38 +43,6 @@ void main() {
     var signer = JWTRsaSha256Signer(privateKey: pemString);
     var signedJWT = builder.getSignedToken(signer);
 
-    // Use the JWT to request info on the GitHub app
-    // final response = await get(installationsUri, headers: {
-    //   "Accept": "application/vnd.github.v3+json",
-    //   "Authorization": "Bearer $signedToken",
-    // });
-    // print(response.body);
-
-    // Use the JWT to request an installation token
-    final installationTokenResponse = await post(
-        Uri.parse(
-            'https://api.github.com/app/installations/23353229/access_tokens'),
-        headers: {
-          "Accept": "application/vnd.github.v3+json",
-          "Authorization": "Bearer $signedJWT",
-        });
-    print(installationTokenResponse.body);
-
-    var installationTokenJson = jsonDecode(installationTokenResponse.body);
-    // var expString = json['expires_at'];
-    // var date = DateTime.parse(expString);
-    // print(date.difference(DateTime.now()));
-    var installationToken = installationTokenJson['token'];
-
-    final response =
-        await post(Uri.parse('https://api.github.com/orgs/adventures-in/repos'),
-            headers: {
-              "Accept": "application/vnd.github.v3+json",
-              "Authorization": "token $installationToken",
-            },
-            body: '{"name":"testerooniroo"}');
-    print(response.body);
-
     // var decodedToken = JWT.parse('$stringToken');
     // // Verify signature:
     // print(decodedToken.verify(signer)); // true
@@ -73,5 +52,11 @@ void main() {
     //   ..issuer = '173221'; // set claims you wish to validate
     // Set<String> errors = validator.validate(decodedToken);
     // print(errors); // (empty list)
+  });
+
+  test('Echo', () async {
+    final response = await get(Uri.parse(local + '/echo/hello'));
+    expect(response.statusCode, 200);
+    expect(response.body, 'hello\n');
   });
 }
