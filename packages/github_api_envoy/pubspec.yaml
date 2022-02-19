@@ -1,4 +1,4 @@
-name: github_api_interactions
+name: github_api_envoy
 description: A server app that recieves authenticated requests and interacts with the GitHub API via a GitHub App.
 version: 0.0.1
 publish_to: none

@@ -1,4 +1,4 @@
-# github_api_interactions
+# github_api_envoy
 
 *A microservice that recieves authenticated requests and interacts with the GitHub API via a GitHub App.*
 
