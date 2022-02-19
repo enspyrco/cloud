@@ -85,13 +85,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-  eventfire:
-    dependency: "direct main"
-    description:
-      path: "../eventfire"
-      relative: true
-    source: path
-    version: "0.0.1"
   file:
     dependency: transitive
     description:
@@ -99,6 +92,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.2"
+  firestore_api_client:
+    dependency: "direct main"
+    description:
+      path: "../api-clients/firestore_api_client"
+      relative: true
+    source: path
+    version: "0.0.1"
   frontend_server_client:
     dependency: transitive
     description:
@@ -119,7 +119,7 @@ packages:
       name: googleapis
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.0.0"
+    version: "8.0.0"
   googleapis_auth:
     dependency: transitive
     description:
@@ -162,6 +162,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.4"
+  json_utils:
+    dependency: "direct main"
+    description:
+      path: "../json_utils"
+      relative: true
+    source: path
+    version: "0.0.1"
   lints:
     dependency: "direct dev"
     description:
@@ -380,4 +387,4 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.16.0-100.0.dev <3.0.0"
+  dart: ">=2.16.1 <3.0.0"

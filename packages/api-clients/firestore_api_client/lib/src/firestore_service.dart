@@ -1,11 +1,10 @@
-import 'package:eventfire/src/extensions/json_map_extension.dart';
+import 'package:firestore_api_client/src/extensions/json_map_extension.dart';
 import 'package:googleapis/firestore/v1.dart';
 import 'package:googleapis_auth/googleapis_auth.dart';
-
-import 'utils/typedefs.dart';
+import 'package:json_utils/json_utils.dart';
 
 /// If [api] is omitted, [client] is used to create one, so [client] must be present.
-/// If [api] is present, [client] can be ommited.
+/// If [api] is present, [client] will be ignored and should be ommited.
 class FirestoreService {
   FirestoreService(
       {required String projectId,

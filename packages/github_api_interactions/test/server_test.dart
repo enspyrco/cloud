@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:corsac_jwt/corsac_jwt.dart';
-import 'package:github_api_interactions/src/git_hub_api_client.dart';
+import 'package:git_hub_api_client/git_hub_api_client.dart';
 import 'package:googleapis/secretmanager/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart';
@@ -9,24 +9,31 @@ import 'package:test/test.dart';
 
 final appUri = Uri.parse('https://api.github.com/app');
 const local = 'http://0.0.0.0:8080';
+const githubOrg = 'adventures-in';
 
 void main() {
-  test('ADC', () async {
-    var client = await clientViaApplicationDefaultCredentials(scopes: []);
-    print(client.credentials.accessToken);
-    print(client.credentials.idToken);
-    print(client.credentials.refreshToken);
-    print(client.credentials.scopes);
-  });
   test('GitHub API Client', () async {
-    var jsonString = File('test/data/mobbing-on-discord-7ad4cd6e7835.json')
-        .readAsStringSync();
-    var credentials = ServiceAccountCredentials.fromJson(jsonString);
-    var authClient = await clientViaServiceAccount(
-        credentials, [SecretManagerApi.cloudPlatformScope]);
-    var client = await GitHubApiClient.create(authClient: authClient);
-    var jsonResponse = await client.createRepo(name: 'justATestRepo');
+    var privateKeyString =
+        File('test/data/adventures-in.2022-02-16.private-key.pem')
+            .readAsStringSync();
+
+    var githubApp = await GitHubService.createWithAppAuth(
+        org: githubOrg,
+        privateKey: privateKeyString,
+        appId: '173221',
+        installationId: '23353229');
+    var jsonResponse = await githubApp.createRepo(name: 'justATestRepo');
     print(jsonResponse);
+  });
+
+  test('SecretManagerService', () async {
+    var serviceAccountCredentialsJson =
+        File('test/data/mobbing-on-discord-7ad4cd6e7835.json')
+            .readAsStringSync();
+    var serviceAccountCredentials =
+        ServiceAccountCredentials.fromJson(serviceAccountCredentialsJson);
+    var httpClient = await clientViaServiceAccount(
+        serviceAccountCredentials, [SecretManagerApi.cloudPlatformScope]);
   });
 
   test('Create JWT for authenticated call to GitHub API', () async {

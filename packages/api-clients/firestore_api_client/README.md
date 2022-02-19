@@ -1,4 +1,4 @@
-# eventfire
+# firestore_api_client
 
 *Wrappers around Firebase & GCP packages for use in an event sourcing architecture.*
 
