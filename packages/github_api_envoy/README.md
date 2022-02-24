@@ -1,6 +1,6 @@
 # github_api_envoy
 
-*A microservice that recieves authenticated requests and interacts with the GitHub API via a GitHub App.*
+*A microservice that receives authenticated requests and interacts with the GitHub API via a GitHub App.*
 
 - Built with Dart package [Shelf]
 - Made to be run in a [Docker] container on [Cloud Run]

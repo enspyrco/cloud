@@ -1,15 +1,16 @@
+import 'dart:io';
+
 import 'package:git_hub_api_client/git_hub_api_client.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:secret_manager_api_client/secret_manager_api_client.dart';
 import 'package:shelf/shelf.dart' show Request, Response;
 import 'package:shelf/shelf_io.dart' as shelf_io;
 
-// TODO: Make env vars
-const githubAppInstallationId = '23353229';
-const gcpProjectId = '1052081684914';
-const githubAppId = '173221';
-const secretName = 'adventures-in-github-app-private-key';
-const githubOrg = 'adventures-in';
+final githubInstallationId = Platform.environment['GITHUB_INSTALLATION_ID']!;
+final gcpProjectId = Platform.environment['GCP_PROJECT_ID']!;
+final githubAppId = Platform.environment['GITHUB_APP_ID']!;
+final secretName = Platform.environment['SECRET_NAME']!;
+final githubOrg = Platform.environment['GITHUB_ORG']!;
 
 GitHubService? _githubService;
 
@@ -24,7 +25,7 @@ Future<Response> handler(Request request) async {
         org: githubOrg,
         privateKey: privateKey,
         appId: githubAppId,
-        installationId: githubAppInstallationId);
+        installationId: githubInstallationId);
   }
 
   // Create a local variable to avoid having to ! when _githubService is accessed
